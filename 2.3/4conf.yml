@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-multitool
+  template:
+    metadata:
+      labels:
+        app: nginx-multitool
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+        volumeMounts:
+#          - mountPath: /etc/nginx
+#            name: config-nginx
+      - name: multitool
+        image: wbitt/network-multitool
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8080
+#        env:
+#          - name: config-multitool
+#            valueFrom:
+#              configMapKeyRef:
+#                key: HTTP_PORT
+
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-multitool
+data:
+  HTTP_PORT: "8080"
+
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name:

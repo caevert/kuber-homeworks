@@ -1,0 +1,40 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: netology-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: "nginx"
+  rules:
+    - host: cicd-tools.ru
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-nginx
+                port:
+                  name: nginx
+          - path: /healtcheck
+            pathType: Exact
+            backend:
+              service:
+                name: backend-multitool
+                port:
+                  name: multitool
+  tls:
+    - hosts:
+      - cicd-tools.ru
+    - secretName: ci-cd-tools-certs
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ci-cd-tools-certs
+data:
+  tls.crt:
+  tls.key:
+type: kubernetes.io/tls
