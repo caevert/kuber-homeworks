@@ -20,6 +20,7 @@ spec:
         ports:
           - containerPort: 80
         volumeMounts:
+
 #          - mountPath: /etc/nginx
 #            name: config-nginx
       - name: multitool
@@ -38,7 +39,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config-multitool
+  name: html-netology
 data:
   HTTP_PORT: "8080"
 

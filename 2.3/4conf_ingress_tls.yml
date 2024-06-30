@@ -18,13 +18,6 @@ spec:
                 name: frontend-nginx
                 port:
                   name: nginx
-          - path: /healtcheck
-            pathType: Exact
-            backend:
-              service:
-                name: backend-multitool
-                port:
-                  name: multitool
   tls:
     - hosts:
       - cicd-tools.ru
